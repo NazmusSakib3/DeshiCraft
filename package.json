@@ -1,0 +1,24 @@
+{
+  "name": "deshicraft",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DeshiCraft - a Bangladesh artisan marketplace built on the MERN stack (MongoDB, Express, React, Node) with TypeScript.",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,magenta \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm --workspace server run dev",
+    "dev:client": "npm --workspace client run dev",
+    "build": "npm --workspace server run build && npm --workspace client run build",
+    "seed": "npm --workspace server run seed",
+    "lint": "npm --workspace server run lint && npm --workspace client run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
