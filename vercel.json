@@ -4,5 +4,8 @@
   "buildCommand": "npm run build --workspace @deshicraft/client",
   "outputDirectory": "client/dist",
   "framework": "vite",
+  "env": {
+    "VITE_API_URL": "https://deshicraft-api.onrender.com/api"
+  },
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }

@@ -6,25 +6,46 @@ const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '.
 dotenv.config({ path: path.join(serverRoot, '.env') });
 
 function required(name: string, fallback?: string): string {
-  const value = process.env[name] ?? fallback;
+  const raw = process.env[name] ?? fallback;
+  const value = typeof raw === 'string' ? raw.trim().replace(/^['"]|['"]$/g, '') : raw;
   if (value === undefined || value === '') {
     throw new Error(`Missing required environment variable: ${name}`);
   }
   return value;
 }
 
+function mongoUri(name: string, fallback?: string): string {
+  const value = required(name, fallback);
+  if (!value.startsWith('mongodb://') && !value.startsWith('mongodb+srv://')) {
+    throw new Error(
+      `${name} must start with mongodb:// or mongodb+srv:// (check for typos, quotes, or angle brackets around the password in Render env vars)`,
+    );
+  }
+  return value;
+}
+
+function clientUrl(name: string, fallback?: string): string {
+  const value = required(name, fallback);
+  if (!value.startsWith('http://') && !value.startsWith('https://')) {
+    throw new Error(
+      `${name} must be an http(s) URL like https://deshicraft.vercel.app (not a database connection string)`,
+    );
+  }
+  return value.replace(/\/$/, '');
+}
+
 export const env = {
   port: Number(process.env.PORT ?? 5000),
   nodeEnv: process.env.NODE_ENV ?? 'development',
   isProd: (process.env.NODE_ENV ?? 'development') === 'production',
-  mongoUri: required('MONGO_URI', 'mongodb://127.0.0.1:27017/deshicraft'),
+  mongoUri: mongoUri('MONGO_URI', 'mongodb://127.0.0.1:27017/deshicraft'),
   jwt: {
     accessSecret: required('JWT_ACCESS_SECRET', 'dev-access-secret-change-me-please-32chars'),
     refreshSecret: required('JWT_REFRESH_SECRET', 'dev-refresh-secret-change-me-please-32chars'),
     accessExpires: process.env.JWT_ACCESS_EXPIRES ?? '15m',
     refreshExpires: process.env.JWT_REFRESH_EXPIRES ?? '7d',
   },
-  clientUrl: process.env.CLIENT_URL ?? 'http://localhost:5173',
+  clientUrl: clientUrl('CLIENT_URL', 'http://localhost:5173'),
   seed: {
     adminEmail: process.env.SEED_ADMIN_EMAIL ?? 'admin@deshicraft.local',
     adminPassword: process.env.SEED_ADMIN_PASSWORD ?? 'Admin123!',

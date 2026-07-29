@@ -1,6 +1,11 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 
-const baseURL = import.meta.env.VITE_API_URL ?? '/api';
+/** Production API when VITE_API_URL is not injected at build time (e.g. missing Vercel env). */
+const PRODUCTION_API_URL = 'https://deshicraft-api.onrender.com/api';
+
+const baseURL =
+  import.meta.env.VITE_API_URL ??
+  (import.meta.env.PROD ? PRODUCTION_API_URL : '/api');
 
 export const api = axios.create({
   baseURL,
