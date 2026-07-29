@@ -9,7 +9,7 @@ services:
     name: deshicraft-api
     runtime: node
     plan: free
-    buildCommand: npm ci && npm run build --workspace @deshicraft/server
+    buildCommand: npm ci --include=dev && npm run build --workspace @deshicraft/server
     startCommand: npm start --workspace @deshicraft/server
     healthCheckPath: /api/health
     envVars:

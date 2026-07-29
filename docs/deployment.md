@@ -36,7 +36,7 @@ For local reference only, copy `server/.env.example` → `server/.env` and set `
 
 1. Push this repo to GitHub (include the latest `render.yaml`).
 2. Render → **New** → **Blueprint** → select `NazmusSakib3/DeshiCraft`.
-3. The blueprint builds from the **repo root** (`npm ci` + `npm run build --workspace @deshicraft/server`). Do **not** set Root Directory to `server` in the dashboard — that breaks `npm ci` (no lockfile in `server/`).
+3. The blueprint builds from the **repo root** (`npm ci --include=dev` + `npm run build --workspace @deshicraft/server`). The `--include=dev` flag is required because Render sets `NODE_ENV=production`, which otherwise skips TypeScript and `@types/node`. Do **not** set Root Directory to `server` in the dashboard — that breaks `npm ci` (no lockfile in `server/`).
 4. Set environment variables marked `sync: false`:
 
    | Variable | Value |
