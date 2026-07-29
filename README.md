@@ -12,6 +12,8 @@ Node) as a production-shaped portfolio project.
 ![Stack](https://img.shields.io/badge/stack-MERN_+_TypeScript-1f5c30)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
+**Live demo:** [https://deshicraft.vercel.app](https://deshicraft.vercel.app) — frontend on Vercel; API on Render pending deploy ([deployment guide](docs/deployment.md)).
+
 ---
 
 ## Features
@@ -162,10 +164,10 @@ The frontend deploys to **Vercel** and the API to **Render** (or any Node host),
 on **MongoDB Atlas**. See [docs/deployment.md](docs/deployment.md) for the full checklist.
 
 Quick version:
-1. Create a free MongoDB Atlas cluster and copy the connection string.
-2. Deploy `server/` to Render using `render.yaml` (set `MONGO_URI`, `CLIENT_URL`, seed vars).
-3. Deploy `client/` to Vercel with `VITE_API_URL` pointing at the API origin (`.../api`).
-4. Run the seed once against the production database.
+1. Create a free MongoDB Atlas cluster and copy the connection string (see [docs/deployment.md](docs/deployment.md)).
+2. Deploy the API on Render using `render.yaml` (monorepo install from repo root; set `MONGO_URI`, `CLIENT_URL`, seed vars).
+3. Deploy `client/` to Vercel with `VITE_API_URL` pointing at the API (`.../api`).
+4. Set `CLIENT_URL` on Render to your Vercel origin, redeploy, then seed production once.
 
 ---
 

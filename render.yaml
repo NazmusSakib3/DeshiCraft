@@ -1,18 +1,22 @@
 # Render.com blueprint for the DeshiCraft API.
 # The frontend deploys separately to Vercel (see client/vercel.json).
 # MongoDB is provided by MongoDB Atlas (free M0 tier) - set MONGO_URI below.
+#
+# Install from the monorepo root (not server/) so `npm ci` can use the root
+# package-lock.json. rootDir: server would fail because server/ has no lockfile.
 services:
   - type: web
     name: deshicraft-api
     runtime: node
-    rootDir: server
     plan: free
-    buildCommand: npm ci && npm run build
-    startCommand: npm start
+    buildCommand: npm ci && npm run build --workspace @deshicraft/server
+    startCommand: npm start --workspace @deshicraft/server
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NODE_VERSION
+        value: "20"
       - key: PORT
         value: 5000
       - key: MONGO_URI
