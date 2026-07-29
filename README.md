@@ -12,7 +12,10 @@ Node) as a production-shaped portfolio project.
 ![Stack](https://img.shields.io/badge/stack-MERN_+_TypeScript-1f5c30)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-**Live demo:** [https://deshicraft.vercel.app](https://deshicraft.vercel.app) — frontend on Vercel; API on Render pending deploy ([deployment guide](docs/deployment.md)).
+**Live demo:** [https://deshicraft.vercel.app](https://deshicraft.vercel.app)  
+**API:** [https://deshicraft-api.onrender.com/api/health](https://deshicraft-api.onrender.com/api/health)
+
+Stack: React on **Vercel** · Express API on **Render** · **MongoDB Atlas** · see [deployment guide](docs/deployment.md).
 
 ---
 
@@ -63,15 +66,19 @@ Node) as a production-shaped portfolio project.
 
 ## Screenshots
 
-Screenshots live in `docs/screenshots/`. To capture them, run the app locally (see Quick Start),
-sign in with the demo accounts, and grab the storefront, product page, cart/checkout, and the
-seller and admin dashboards.
+| Home | Shop |
+|------|------|
+| ![Home](docs/screenshots/01-home.png) | ![Shop](docs/screenshots/02-shop.png) |
 
-<!-- Example once captured:
-| Storefront | Product page |
-|---|---|
-| ![Home](docs/screenshots/01-home.png) | ![Product](docs/screenshots/02-product.png) |
--->
+| Product detail | Cart |
+|----------------|------|
+| ![Product](docs/screenshots/03-product.png) | ![Cart](docs/screenshots/04-cart.png) |
+
+| Sell your craft | Sign in |
+|-----------------|---------|
+| ![Seller onboarding](docs/screenshots/05-seller.png) | ![Sign in](docs/screenshots/06-login.png) |
+
+_Tip: sign in as admin (`admin@deshicraft.local`) to explore seller and admin dashboards._
 
 ---
 

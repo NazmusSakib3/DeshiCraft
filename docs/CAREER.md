@@ -27,11 +27,12 @@ Open to full-stack / software engineer roles (remote + Dhaka).
 
 ## 2. Repository polish checklist
 
-- [ ] Push DeshiCraft to `https://github.com/NazmusSakib3/deshicraft`
-- [ ] Add repo topics: `mern`, `react`, `nodejs`, `express`, `mongodb`, `typescript`, `ecommerce`, `tailwindcss`
-- [ ] Add a live demo URL to the repo "About" section and the README once deployed
-- [ ] Pin DeshiCraft and Tax Compliance on your profile
-- [ ] Capture screenshots into `docs/screenshots/` and uncomment the README table
+- [x] Push DeshiCraft to `https://github.com/NazmusSakib3/DeshiCraft`
+- [x] Add repo topics: `mern`, `react`, `nodejs`, `express`, `mongodb`, `typescript`, `ecommerce`, `tailwindcss`
+- [x] Add live demo URL to the repo "About" section and README
+- [ ] Pin DeshiCraft and Tax Compliance on your profile (GitHub UI → Customize pins)
+- [x] Capture screenshots into `docs/screenshots/` and add README table
+- [ ] Update profile README with DeshiCraft live link — see `docs/PROFILE_README.md`
 - [ ] Add topics to Tax Compliance too: `aspnet-core`, `angular`, `clean-architecture`, `docker`
 
 ## 3. CV bullet points (truthful after you deploy)
