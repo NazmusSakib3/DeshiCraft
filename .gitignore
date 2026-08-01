@@ -37,6 +37,9 @@ Thumbs.db
 # Testing / coverage
 coverage/
 .nyc_output/
+test-results/
+playwright-report/
+blob-report/
 
 # Uploads (local dev)
 server/uploads/

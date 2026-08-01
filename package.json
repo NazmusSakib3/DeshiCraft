@@ -13,9 +13,12 @@
     "dev:client": "npm --workspace client run dev",
     "build": "npm --workspace server run build && npm --workspace client run build",
     "seed": "npm --workspace server run seed",
-    "lint": "npm --workspace server run lint && npm --workspace client run lint"
+    "lint": "npm --workspace server run lint && npm --workspace client run lint",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "concurrently": "^9.1.0"
   },
   "engines": {

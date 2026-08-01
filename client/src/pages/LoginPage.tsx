@@ -28,11 +28,6 @@ export default function LoginPage() {
     }
   };
 
-  const quickFill = (e: string, p: string) => {
-    setEmail(e);
-    setPassword(p);
-  };
-
   return (
     <div className="container-page flex min-h-[80vh] items-center justify-center py-12">
       <div className="w-full max-w-md">
@@ -74,21 +69,6 @@ export default function LoginPage() {
               Create an account
             </Link>
           </p>
-        </div>
-
-        <div className="mt-4 rounded-2xl border border-dashed border-ink/15 bg-white/50 p-4 text-sm">
-          <p className="mb-2 font-semibold text-ink/70">Demo accounts (click to fill):</p>
-          <div className="flex flex-wrap gap-2">
-            <button onClick={() => quickFill('admin@deshicraft.local', 'Admin123!')} className="btn-outline text-xs">
-              Admin
-            </button>
-            <button onClick={() => quickFill('rina@deshicraft.local', 'Seller123!')} className="btn-outline text-xs">
-              Seller
-            </button>
-            <button onClick={() => quickFill('customer@deshicraft.local', 'Customer123!')} className="btn-outline text-xs">
-              Customer
-            </button>
-          </div>
         </div>
       </div>
     </div>

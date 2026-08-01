@@ -86,7 +86,9 @@ Checkout supports three methods:
 
 ---
 
-## 3. Playwright E2E (next)
+## 4. Playwright E2E ✅ (implemented)
 
-- Smoke: login → cart → COD order → seller confirms.
-- Add job to `.github/workflows/ci.yml`.
+- `e2e/smoke.spec.ts` — home, shop, login page
+- `e2e/checkout-cod.spec.ts` — customer COD order → seller confirms
+- `npm run test:e2e` — runs against production by default
+- CI job in `.github/workflows/ci.yml`

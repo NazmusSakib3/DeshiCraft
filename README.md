@@ -25,7 +25,7 @@ Stack: React on **Vercel** · Express API on **Render** · **MongoDB Atlas** · 
 - Browse a catalog with **search, category filters, sorting, and pagination**
 - Product detail pages with image gallery, seller info, and **verified-purchase reviews**
 - **Cart** (persisted locally) and server-synced **wishlist**
-- **Checkout** with saved addresses, Cash on Delivery, and a card (sandbox) option
+- **Checkout** with saved addresses, Cash on Delivery, **Stripe Checkout**, and **SSLCommerz** (bKash, Nagad, local cards)
 - Order tracking with a visual **status timeline** and self-service cancellation
 
 ### Seller dashboard
@@ -59,7 +59,7 @@ Stack: React on **Vercel** · Express API on **Render** · **MongoDB Atlas** · 
 | Database   | MongoDB |
 | Auth       | JWT (access + refresh), bcrypt |
 | Validation | Zod |
-| Testing    | Node test runner, mongodb-memory-server |
+| Testing    | Node test runner, mongodb-memory-server, Playwright E2E |
 | Tooling    | Docker Compose, GitHub Actions |
 
 ---
@@ -78,7 +78,11 @@ Stack: React on **Vercel** · Express API on **Render** · **MongoDB Atlas** · 
 |-----------------|---------|
 | ![Seller onboarding](docs/screenshots/05-seller.png) | ![Sign in](docs/screenshots/06-login.png) |
 
-_Tip: sign in as admin (`admin@deshicraft.local`) to explore seller and admin dashboards._
+| Checkout (payments) | SSLCommerz gateway |
+|---------------------|--------------------|
+| ![Checkout](docs/screenshots/07-checkout.png) | ![SSLCommerz](docs/screenshots/08-sslcommerz.png) |
+
+_Demo accounts are listed in [Quick start](#4-seed-demo-data). Add screenshots per [docs/screenshots/README.md](docs/screenshots/README.md)._
 
 ---
 
@@ -129,11 +133,29 @@ Open http://localhost:5173. The Vite dev server proxies `/api` to the backend.
 
 ## Testing
 
+### API smoke tests
+
 ```bash
 npm test --workspace server
 ```
 Spins up an in-memory MongoDB and exercises the full flow: seed -> login -> create product ->
 place order -> stock decrement -> order status transition -> admin stats -> RBAC checks.
+
+### E2E (Playwright)
+
+Runs against the live demo by default (`https://deshicraft.vercel.app`):
+
+```bash
+npm run test:e2e
+```
+
+Local frontend:
+
+```bash
+BASE_URL=http://localhost:5173 npm run test:e2e
+```
+
+Covers: public pages load, customer COD checkout, seller order confirmation. CI runs this on every push via GitHub Actions.
 
 ---
 
