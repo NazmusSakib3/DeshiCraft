@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
-interface EmptyStateProps {
+type EmptyStateProps = Readonly<{
   icon: LucideIcon;
   title: string;
   description?: string;
   action?: ReactNode;
-}
+}>;
 
 export function EmptyState({ icon: Icon, title, description, action }: EmptyStateProps) {
   return (

@@ -276,9 +276,10 @@ async function run() {
   await disconnectDB();
 }
 
-run()
-  .then(() => process.exit(0))
-  .catch((err) => {
-    console.error('[seed] failed', err);
-    process.exit(1);
-  });
+try {
+  await run();
+  process.exit(0);
+} catch (err) {
+  console.error('[seed] failed', err);
+  process.exit(1);
+}

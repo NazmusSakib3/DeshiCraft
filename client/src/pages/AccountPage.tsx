@@ -88,8 +88,9 @@ export default function AccountPage() {
                 <input value={form.fullName} onChange={set('fullName')} required placeholder="Full name" className="input sm:col-span-2" />
                 <input value={form.phone} onChange={set('phone')} required placeholder="Phone" className="input" />
                 <div>
-                  <label className="label">District</label>
+                  <label className="label" htmlFor="account-district">District</label>
                   <DistrictSelect
+                    id="account-district"
                     value={form.district}
                     onChange={(district) => setForm((f) => ({ ...f, district }))}
                     required

@@ -86,16 +86,16 @@ export default function SellPage() {
           <h2 className="text-lg font-bold text-ink">Open your shop</h2>
           <div className="mt-4 space-y-4">
             <div>
-              <label className="label">Shop name</label>
-              <input value={shopName} onChange={(e) => setShopName(e.target.value)} required minLength={2} className="input" placeholder="e.g. Rina Terracotta Studio" />
+              <label className="label" htmlFor="sell-shopName">Shop name</label>
+              <input id="sell-shopName" value={shopName} onChange={(e) => setShopName(e.target.value)} required minLength={2} className="input" placeholder="e.g. Rina Terracotta Studio" />
             </div>
             <div>
-              <label className="label">Region</label>
-              <input value={region} onChange={(e) => setRegion(e.target.value)} className="input" placeholder="e.g. Rajshahi" />
+              <label className="label" htmlFor="sell-region">Region</label>
+              <input id="sell-region" value={region} onChange={(e) => setRegion(e.target.value)} className="input" placeholder="e.g. Rajshahi" />
             </div>
             <div>
-              <label className="label">About your craft</label>
-              <textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={3} className="input" placeholder="Tell buyers your story..." />
+              <label className="label" htmlFor="sell-bio">About your craft</label>
+              <textarea id="sell-bio" value={bio} onChange={(e) => setBio(e.target.value)} rows={3} className="input" placeholder="Tell buyers your story..." />
             </div>
             <button type="submit" disabled={loading} className="btn-accent w-full">
               {sellButtonLabel(loading, Boolean(user))}

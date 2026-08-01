@@ -15,10 +15,10 @@ const paymentStyles: Record<PaymentStatus, string> = {
   refunded: 'bg-ink/10 text-ink/50',
 };
 
-export function OrderStatusBadge({ status }: { status: OrderStatus }) {
+export function OrderStatusBadge({ status }: Readonly<{ status: OrderStatus }>) {
   return <span className={clsx('badge capitalize', orderStyles[status])}>{status}</span>;
 }
 
-export function PaymentStatusBadge({ status }: { status: PaymentStatus }) {
+export function PaymentStatusBadge({ status }: Readonly<{ status: PaymentStatus }>) {
   return <span className={clsx('badge capitalize', paymentStyles[status])}>{status}</span>;
 }

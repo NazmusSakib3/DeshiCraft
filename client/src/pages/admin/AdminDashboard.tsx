@@ -78,7 +78,7 @@ export default function AdminDashboard() {
   );
 }
 
-function DailyChart({ daily }: { daily: { _id: string; count: number; revenue: number }[] }) {
+function DailyChart({ daily }: Readonly<{ daily: { _id: string; count: number; revenue: number }[] }>) {
   if (daily.length === 0) return <p className="text-sm text-ink/50">No recent orders.</p>;
   const max = Math.max(...daily.map((d) => d.count), 1);
   return (

@@ -9,11 +9,11 @@ function NavIconTooltip({
   label,
   className,
   children,
-}: {
+}: Readonly<{
   label: string;
   className?: string;
   children: ReactNode;
-}) {
+}>) {
   return (
     <span className={clsx('group relative inline-flex', className)}>
       {children}

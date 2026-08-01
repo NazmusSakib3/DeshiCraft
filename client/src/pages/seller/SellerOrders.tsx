@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { UseMutationResult } from '@tanstack/react-query';
 import { ShoppingCart } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { api, apiError } from '../../lib/api';
@@ -16,6 +17,80 @@ const nextStatus: Partial<Record<OrderStatus, { to: OrderStatus; label: string }
   confirmed: { to: 'shipped', label: 'Mark shipped' },
   shipped: { to: 'delivered', label: 'Mark delivered' },
 };
+
+function customerName(order: Order): string {
+  return typeof order.user === 'object' ? order.user.name : 'Customer';
+}
+
+function SellerOrderList({
+  orders,
+  userId,
+  updateStatus,
+}: Readonly<{
+  orders: Order[];
+  userId: string | undefined;
+  updateStatus: UseMutationResult<unknown, unknown, { id: string; status: OrderStatus }>;
+}>) {
+  if (orders.length === 0) {
+    return (
+      <EmptyState
+        icon={ShoppingCart}
+        title="No orders yet"
+        description="Orders containing your products will appear here."
+      />
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {orders.map((order) => {
+        const myItems = order.items.filter((i) => String(i.seller) === userId);
+        const myTotal = myItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+        const action = nextStatus[order.status];
+        return (
+          <div key={order._id} className="card p-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="font-semibold text-ink">{order.orderNumber}</p>
+                <p className="text-sm text-ink/50">
+                  {formatDate(order.createdAt)} - {customerName(order)}
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <OrderStatusBadge status={order.status} />
+                {action && (
+                  <button
+                    type="button"
+                    onClick={() => updateStatus.mutate({ id: order._id, status: action.to })}
+                    disabled={updateStatus.isPending}
+                    className="btn-primary text-sm"
+                  >
+                    {action.label}
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="mt-4 space-y-2 border-t border-ink/8 pt-4">
+              {myItems.map((item) => (
+                <div key={`${item.title}-${item.image}`} className="flex items-center gap-3 text-sm">
+                  <img src={item.image} alt="" className="h-10 w-10 rounded-lg object-cover" />
+                  <span className="flex-1 text-ink/70">
+                    {item.title} <span className="text-ink/40">x{item.quantity}</span>
+                  </span>
+                  <span className="font-medium">{formatBDT(item.price * item.quantity)}</span>
+                </div>
+              ))}
+              <div className="flex justify-between pt-2 text-sm font-semibold">
+                <span>Your earnings from this order</span>
+                <span className="text-forest-500">{formatBDT(myTotal)}</span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function SellerOrders() {
   const user = useAuthStore((s) => s.user);
@@ -47,56 +122,8 @@ export default function SellerOrders() {
 
       {isLoading ? (
         <PageLoader />
-      ) : !orders || orders.length === 0 ? (
-        <EmptyState icon={ShoppingCart} title="No orders yet" description="Orders containing your products will appear here." />
       ) : (
-        <div className="space-y-4">
-          {orders.map((order) => {
-            const myItems = order.items.filter((i) => String(i.seller) === user?.id);
-            const myTotal = myItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-            const action = nextStatus[order.status];
-            return (
-              <div key={order._id} className="card p-5">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <p className="font-semibold text-ink">{order.orderNumber}</p>
-                    <p className="text-sm text-ink/50">
-                      {formatDate(order.createdAt)} -{' '}
-                      {typeof order.user === 'object' ? order.user.name : 'Customer'}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <OrderStatusBadge status={order.status} />
-                    {action && (
-                      <button type="button"
-              onClick={() => updateStatus.mutate({ id: order._id, status: action.to })}
-                        disabled={updateStatus.isPending}
-                        className="btn-primary text-sm"
-                      >
-                        {action.label}
-                      </button>
-                    )}
-                  </div>
-                </div>
-                <div className="mt-4 space-y-2 border-t border-ink/8 pt-4">
-                  {myItems.map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 text-sm">
-                      <img src={item.image} alt="" className="h-10 w-10 rounded-lg object-cover" />
-                      <span className="flex-1 text-ink/70">
-                        {item.title} <span className="text-ink/40">x{item.quantity}</span>
-                      </span>
-                      <span className="font-medium">{formatBDT(item.price * item.quantity)}</span>
-                    </div>
-                  ))}
-                  <div className="flex justify-between pt-2 text-sm font-semibold">
-                    <span>Your earnings from this order</span>
-                    <span className="text-forest-500">{formatBDT(myTotal)}</span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <SellerOrderList orders={orders ?? []} userId={user?.id} updateStatus={updateStatus} />
       )}
     </div>
   );

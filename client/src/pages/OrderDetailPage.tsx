@@ -25,6 +25,18 @@ function paymentMethodLabel(method: PaymentMethod): string {
   }
 }
 
+function timelineLeftClass(index: number, currentStep: number): string {
+  if (index === 0) return 'bg-transparent';
+  if (index <= currentStep) return 'bg-forest-500';
+  return 'bg-ink/10';
+}
+
+function timelineRightClass(index: number, currentStep: number, lastIndex: number): string {
+  if (index === lastIndex) return 'bg-transparent';
+  if (index < currentStep) return 'bg-forest-500';
+  return 'bg-ink/10';
+}
+
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -96,13 +108,13 @@ export default function OrderDetailPage() {
             {steps.map((step, i) => (
               <div key={step} className="flex flex-1 flex-col items-center text-center">
                 <div className="flex w-full items-center">
-                  <div className={clsx('h-0.5 flex-1', i === 0 ? 'bg-transparent' : i <= currentStep ? 'bg-forest-500' : 'bg-ink/10')} />
+                  <div className={clsx('h-0.5 flex-1', timelineLeftClass(i, currentStep))} />
                   {i <= currentStep ? (
                     <CheckCircle2 className="h-6 w-6 shrink-0 text-forest-500" />
                   ) : (
                     <Circle className="h-6 w-6 shrink-0 text-ink/20" />
                   )}
-                  <div className={clsx('h-0.5 flex-1', i === steps.length - 1 ? 'bg-transparent' : i < currentStep ? 'bg-forest-500' : 'bg-ink/10')} />
+                  <div className={clsx('h-0.5 flex-1', timelineRightClass(i, currentStep, steps.length - 1))} />
                 </div>
                 <span className={clsx('mt-2 text-xs font-medium capitalize', i <= currentStep ? 'text-forest-500' : 'text-ink/40')}>
                   {step}

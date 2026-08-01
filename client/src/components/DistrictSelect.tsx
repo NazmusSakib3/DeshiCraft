@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import { BANGLADESH_DISTRICTS } from '../data/bangladeshDistricts';
 
-interface DistrictSelectProps {
+type DistrictSelectProps = Readonly<{
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
   className?: string;
   id?: string;
-}
+}>;
 
 export function DistrictSelect({
   value,

@@ -112,7 +112,7 @@ export const listSellers = asyncHandler(async (_req: Request, res: Response) => 
 
 export const approveSeller = asyncHandler(async (req: Request, res: Response) => {
   const user = await User.findById(req.params.id);
-  if (!user || user.role !== 'seller' || !user.sellerProfile) {
+  if (user?.role !== 'seller' || !user.sellerProfile) {
     throw ApiError.notFound('Seller not found');
   }
   user.sellerProfile.approved = req.body.approved !== false;

@@ -85,16 +85,16 @@ export default function AdminCategories() {
           <h2 className="mb-4 text-lg font-bold text-ink">Add category</h2>
           <div className="space-y-4">
             <div>
-              <label className="label">Name</label>
-              <input value={name} onChange={(e) => setName(e.target.value)} required minLength={2} className="input" />
+              <label className="label" htmlFor="category-name">Name</label>
+              <input id="category-name" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} className="input" />
             </div>
             <div>
-              <label className="label">Description</label>
-              <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="input" />
+              <label className="label" htmlFor="category-description">Description</label>
+              <textarea id="category-description" value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="input" />
             </div>
             <div>
-              <label className="label">Image URL</label>
-              <input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://..." className="input" />
+              <label className="label" htmlFor="category-imageUrl">Image URL</label>
+              <input id="category-imageUrl" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://..." className="input" />
             </div>
             <button type="submit" disabled={create.isPending} className="btn-primary w-full">
               <Plus className="h-4 w-4" /> Create category

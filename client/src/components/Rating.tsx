@@ -1,12 +1,12 @@
 import { Star } from 'lucide-react';
 import clsx from 'clsx';
 
-interface RatingProps {
+type RatingProps = Readonly<{
   value: number;
   count?: number;
   size?: number;
   className?: string;
-}
+}>;
 
 export function Rating({ value, count, size = 14, className }: RatingProps) {
   return (

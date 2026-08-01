@@ -9,7 +9,7 @@ export interface DashboardTab {
   end?: boolean;
 }
 
-export function DashboardNav({ title, tabs }: { title: string; tabs: DashboardTab[] }) {
+export function DashboardNav({ title, tabs }: Readonly<{ title: string; tabs: DashboardTab[] }>) {
   return (
     <div className="mb-8">
       <h1 className="text-3xl font-bold text-ink">{title}</h1>
@@ -42,12 +42,12 @@ export function StatCard({
   value,
   hint,
   icon: Icon,
-}: {
+}: Readonly<{
   label: string;
   value: string | number;
   hint?: string;
   icon: LucideIcon;
-}) {
+}>) {
   return (
     <div className="card p-5">
       <div className="flex items-center justify-between">

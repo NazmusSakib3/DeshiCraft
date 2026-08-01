@@ -190,7 +190,7 @@ export default function ProductPage() {
   );
 }
 
-function ReviewSection({ slug, reviews }: { slug: string; reviews: Review[] }) {
+function ReviewSection({ slug, reviews }: Readonly<{ slug: string; reviews: Review[] }>) {
   const user = useAuthStore((s) => s.user);
   const queryClient = useQueryClient();
   const [rating, setRating] = useState(5);

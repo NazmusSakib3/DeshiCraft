@@ -12,7 +12,7 @@ export function ProtectedRoute() {
   return <Outlet />;
 }
 
-export function RoleRoute({ roles }: { roles: Role[] }) {
+export function RoleRoute({ roles }: Readonly<{ roles: Role[] }>) {
   const { user, status } = useAuthStore();
   if (status !== 'ready') return <PageLoader />;
   if (!user) return <Navigate to="/login" replace />;

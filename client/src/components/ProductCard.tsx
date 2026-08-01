@@ -10,7 +10,7 @@ import { useWishlistStore } from '../store/wishlistStore';
 import { useAuthStore } from '../store/authStore';
 import { apiError } from '../lib/api';
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product }: Readonly<{ product: Product }>) {
   const add = useCartStore((s) => s.add);
   const user = useAuthStore((s) => s.user);
   const wished = useWishlistStore((s) => s.ids.includes(product._id));

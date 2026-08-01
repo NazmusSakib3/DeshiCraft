@@ -113,32 +113,33 @@ export default function CheckoutPage() {
             <h2 className="mb-4 text-lg font-bold text-ink">Shipping address</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <label className="label">Full name</label>
-                <input value={address.fullName} onChange={set('fullName')} required className="input" />
+                <label className="label" htmlFor="checkout-fullName">Full name</label>
+                <input id="checkout-fullName" value={address.fullName} onChange={set('fullName')} required className="input" />
               </div>
               <div>
-                <label className="label">Phone</label>
-                <input value={address.phone} onChange={set('phone')} required className="input" placeholder="+8801..." />
+                <label className="label" htmlFor="checkout-phone">Phone</label>
+                <input id="checkout-phone" value={address.phone} onChange={set('phone')} required className="input" placeholder="+8801..." />
               </div>
               <div>
-                <label className="label">District</label>
+                <label className="label" htmlFor="checkout-district">District</label>
                 <DistrictSelect
+                  id="checkout-district"
                   value={address.district}
                   onChange={(district) => setAddress((a) => ({ ...a, district }))}
                   required
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="label">Street address</label>
-                <input value={address.street} onChange={set('street')} required className="input" />
+                <label className="label" htmlFor="checkout-street">Street address</label>
+                <input id="checkout-street" value={address.street} onChange={set('street')} required className="input" />
               </div>
               <div>
-                <label className="label">City / Area</label>
-                <input value={address.city} onChange={set('city')} required className="input" />
+                <label className="label" htmlFor="checkout-city">City / Area</label>
+                <input id="checkout-city" value={address.city} onChange={set('city')} required className="input" />
               </div>
               <div>
-                <label className="label">Postal code (optional)</label>
-                <input value={address.postalCode ?? ''} onChange={set('postalCode')} className="input" />
+                <label className="label" htmlFor="checkout-postalCode">Postal code (optional)</label>
+                <input id="checkout-postalCode" value={address.postalCode ?? ''} onChange={set('postalCode')} className="input" />
               </div>
             </div>
           </section>

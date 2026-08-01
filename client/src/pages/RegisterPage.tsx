@@ -34,16 +34,17 @@ export default function RegisterPage() {
 
         <form onSubmit={submit} className="mt-6 space-y-4">
           <div>
-            <label className="label">Full name</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} required minLength={2} className="input" />
+            <label className="label" htmlFor="register-name">Full name</label>
+            <input id="register-name" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} className="input" />
           </div>
           <div>
-            <label className="label">Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="input" />
+            <label className="label" htmlFor="register-email">Email</label>
+            <input id="register-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="input" />
           </div>
           <div>
-            <label className="label">Password</label>
+            <label className="label" htmlFor="register-password">Password</label>
             <input
+              id="register-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

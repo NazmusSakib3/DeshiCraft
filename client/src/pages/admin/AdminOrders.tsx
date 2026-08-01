@@ -47,7 +47,7 @@ export default function AdminOrders() {
         >
           {statuses.map((s) => (
             <option key={s} value={s}>
-              {s ? s : 'All statuses'}
+              {s || 'All statuses'}
             </option>
           ))}
         </select>

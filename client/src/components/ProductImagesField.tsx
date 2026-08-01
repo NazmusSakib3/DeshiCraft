@@ -5,12 +5,13 @@ import { api, apiError } from '../lib/api';
 
 const MAX_IMAGES = 6;
 
-interface ProductImagesFieldProps {
+type ProductImagesFieldProps = Readonly<{
   images: string[];
   onChange: (images: string[]) => void;
-}
+  id?: string;
+}>;
 
-export function ProductImagesField({ images, onChange }: ProductImagesFieldProps) {
+export function ProductImagesField({ images, onChange, id }: ProductImagesFieldProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [urlDraft, setUrlDraft] = useState('');
@@ -60,13 +61,13 @@ export function ProductImagesField({ images, onChange }: ProductImagesFieldProps
   };
 
   return (
-    <div className="space-y-4">
+    <div id={id} className="space-y-4">
       <div className="flex flex-wrap gap-3">
-        {filledImages.map((url, index) => (
-          <div key={`${url}-${index}`} className="group relative h-24 w-24 overflow-hidden rounded-xl border border-ink/10 bg-paper">
+        {filledImages.map((url) => (
+          <div key={url} className="group relative h-24 w-24 overflow-hidden rounded-xl border border-ink/10 bg-paper">
             <img src={url} alt="" className="h-full w-full object-cover" />
             <button type="button"
-              onClick={() => removeImage(index)}
+              onClick={() => removeImage(filledImages.indexOf(url))}
               className="absolute right-1 top-1 rounded-full bg-ink/70 p-1 text-white opacity-0 transition group-hover:opacity-100"
               aria-label="Remove image"
             >

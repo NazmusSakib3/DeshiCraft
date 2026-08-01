@@ -15,6 +15,70 @@ const sortOptions = [
   { value: 'popular', label: 'Most reviewed' },
 ];
 
+function ShopProductGrid({
+  isLoading,
+  data,
+  page,
+  update,
+}: Readonly<{
+  isLoading: boolean;
+  data: Paginated<Product> | undefined;
+  page: number;
+  update: (key: string, value: string) => void;
+}>) {
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-24">
+        <Spinner className="h-8 w-8 text-forest-500" />
+      </div>
+    );
+  }
+
+  if (!data || data.items.length === 0) {
+    return (
+      <EmptyState
+        icon={PackageSearch}
+        title="No products found"
+        description="Try a different search term or category filter."
+      />
+    );
+  }
+
+  return (
+    <>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        {data.items.map((product) => (
+          <ProductCard key={product._id} product={product} />
+        ))}
+      </div>
+
+      {data.totalPages > 1 && (
+        <div className="mt-10 flex items-center justify-center gap-2">
+          <button
+            type="button"
+            disabled={page <= 1}
+            onClick={() => update('page', String(page - 1))}
+            className="btn-outline"
+          >
+            Previous
+          </button>
+          <span className="px-3 text-sm text-ink/60">
+            Page {data.page} of {data.totalPages}
+          </span>
+          <button
+            type="button"
+            disabled={page >= data.totalPages}
+            onClick={() => update('page', String(page + 1))}
+            className="btn-outline"
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </>
+  );
+}
+
 export default function ShopPage() {
   const [params, setParams] = useSearchParams();
 
@@ -111,47 +175,7 @@ export default function ShopPage() {
             </select>
           </div>
 
-          {isLoading ? (
-            <div className="flex justify-center py-24">
-              <Spinner className="h-8 w-8 text-forest-500" />
-            </div>
-          ) : data && data.items.length > 0 ? (
-            <>
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                {data.items.map((product) => (
-                  <ProductCard key={product._id} product={product} />
-                ))}
-              </div>
-
-              {data.totalPages > 1 && (
-                <div className="mt-10 flex items-center justify-center gap-2">
-                  <button type="button"
-                    disabled={page <= 1}
-                    onClick={() => update('page', String(page - 1))}
-                    className="btn-outline"
-                  >
-                    Previous
-                  </button>
-                  <span className="px-3 text-sm text-ink/60">
-                    Page {data.page} of {data.totalPages}
-                  </span>
-                  <button type="button"
-                    disabled={page >= data.totalPages}
-                    onClick={() => update('page', String(page + 1))}
-                    className="btn-outline"
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            <EmptyState
-              icon={PackageSearch}
-              title="No products found"
-              description="Try a different search term or category filter."
-            />
-          )}
+          <ShopProductGrid isLoading={isLoading} data={data} page={page} update={update} />
         </div>
       </div>
     </div>

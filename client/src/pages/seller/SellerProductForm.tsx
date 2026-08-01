@@ -37,6 +37,11 @@ const initial: FormState = {
   isActive: true,
 };
 
+function parseTags(raw: string): string[] {
+  if (!raw) return [];
+  return raw.split(',').map((t) => t.trim()).filter(Boolean);
+}
+
 function saveProductLabel(saving: boolean, isEdit: boolean): string {
   if (saving) return 'Saving...';
   if (isEdit) return 'Save changes';
@@ -109,7 +114,7 @@ export default function SellerProductForm() {
       stock: Number(form.stock),
       material: form.material || undefined,
       region: form.region || undefined,
-      tags: form.tags ? form.tags.split(',').map((t) => t.trim()).filter(Boolean) : [],
+      tags: parseTags(form.tags),
       images,
       ...(isEdit ? { isActive: form.isActive } : {}),
     };
@@ -131,6 +136,8 @@ export default function SellerProductForm() {
     }
   };
 
+  const updateImages = (images: string[]) => setForm((f) => ({ ...f, images }));
+
   if (isEdit && isLoading) return <PageLoader />;
 
   return (
@@ -140,8 +147,9 @@ export default function SellerProductForm() {
 
       <form onSubmit={submit} className="grid max-w-3xl gap-5">
         <div>
-          <label className="label">Title</label>
+          <label className="label" htmlFor="product-title">Title</label>
           <input
+            id="product-title"
             value={form.title}
             onChange={(e) => setForm({ ...form, title: e.target.value })}
             required
@@ -151,8 +159,9 @@ export default function SellerProductForm() {
         </div>
 
         <div>
-          <label className="label">Description</label>
+          <label className="label" htmlFor="product-description">Description</label>
           <textarea
+            id="product-description"
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
             required
@@ -164,23 +173,23 @@ export default function SellerProductForm() {
 
         <div className="grid gap-5 sm:grid-cols-3">
           <div>
-            <label className="label">Price (BDT)</label>
-            <input type="number" min="0" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required className="input" />
+            <label className="label" htmlFor="product-price">Price (BDT)</label>
+            <input id="product-price" type="number" min="0" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required className="input" />
           </div>
           <div>
-            <label className="label">Compare-at price</label>
-            <input type="number" min="0" value={form.compareAtPrice} onChange={(e) => setForm({ ...form, compareAtPrice: e.target.value })} className="input" />
+            <label className="label" htmlFor="product-compareAtPrice">Compare-at price</label>
+            <input id="product-compareAtPrice" type="number" min="0" value={form.compareAtPrice} onChange={(e) => setForm({ ...form, compareAtPrice: e.target.value })} className="input" />
           </div>
           <div>
-            <label className="label">Stock</label>
-            <input type="number" min="0" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} required className="input" />
+            <label className="label" htmlFor="product-stock">Stock</label>
+            <input id="product-stock" type="number" min="0" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} required className="input" />
           </div>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-3">
           <div>
-            <label className="label">Category</label>
-            <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} required className="input">
+            <label className="label" htmlFor="product-category">Category</label>
+            <select id="product-category" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} required className="input">
               {(categories ?? []).map((c) => (
                 <option key={c._id} value={c._id}>
                   {c.name}
@@ -189,25 +198,26 @@ export default function SellerProductForm() {
             </select>
           </div>
           <div>
-            <label className="label">Material</label>
-            <input value={form.material} onChange={(e) => setForm({ ...form, material: e.target.value })} className="input" />
+            <label className="label" htmlFor="product-material">Material</label>
+            <input id="product-material" value={form.material} onChange={(e) => setForm({ ...form, material: e.target.value })} className="input" />
           </div>
           <div>
-            <label className="label">Region</label>
-            <input value={form.region} onChange={(e) => setForm({ ...form, region: e.target.value })} className="input" />
+            <label className="label" htmlFor="product-region">Region</label>
+            <input id="product-region" value={form.region} onChange={(e) => setForm({ ...form, region: e.target.value })} className="input" />
           </div>
         </div>
 
         <div>
-          <label className="label">Tags (comma separated)</label>
-          <input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} className="input" placeholder="handmade, gift, eco" />
+          <label className="label" htmlFor="product-tags">Tags (comma separated)</label>
+          <input id="product-tags" value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} className="input" placeholder="handmade, gift, eco" />
         </div>
 
         <div>
-          <label className="label">Product images</label>
+          <label className="label" htmlFor="product-images">Product images</label>
           <ProductImagesField
+            id="product-images"
             images={form.images}
-            onChange={(images) => setForm((f) => ({ ...f, images }))}
+            onChange={updateImages}
           />
         </div>
 
@@ -219,7 +229,7 @@ export default function SellerProductForm() {
               onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
               className="h-4 w-4 rounded border-ink/30"
             />
-            Product is active and visible in the shop
+            <span>Product is active and visible in the shop</span>
           </label>
         )}
 
