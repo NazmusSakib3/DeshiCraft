@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
+import multer from 'multer';
 import { ApiError } from '../utils/ApiError.js';
 import { env } from '../config/env.js';
 
@@ -26,6 +27,17 @@ export function errorHandler(
 
   if (err instanceof mongoose.Error.CastError) {
     res.status(400).json({ message: `Invalid ${err.path}: ${String(err.value)}` });
+    return;
+  }
+
+  if (err instanceof multer.MulterError) {
+    const message =
+      err.code === 'LIMIT_FILE_SIZE'
+        ? 'Image must be 5 MB or smaller'
+        : err.code === 'LIMIT_UNEXPECTED_FILE'
+          ? 'Unexpected file field. Use field name "image".'
+          : err.message;
+    res.status(400).json({ message });
     return;
   }
 

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Plus, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { api, apiError } from '../../lib/api';
 import type { Category, Product } from '../../types';
 import { DashboardNav } from '../../components/DashboardNav';
+import { ProductImagesField } from '../../components/ProductImagesField';
 import { PageLoader } from '../../components/Spinner';
 import { sellerTabs } from './sellerTabs';
 
@@ -33,7 +33,7 @@ const initial: FormState = {
   material: '',
   region: '',
   tags: '',
-  images: [''],
+  images: [],
   isActive: true,
 };
 
@@ -73,7 +73,7 @@ export default function SellerProductForm() {
         material: existing.material ?? '',
         region: existing.region ?? '',
         tags: existing.tags.join(', '),
-        images: existing.images.length ? existing.images : [''],
+        images: existing.images.length ? existing.images : [],
         isActive: existing.isActive,
       });
     }
@@ -89,7 +89,7 @@ export default function SellerProductForm() {
     e.preventDefault();
     const images = form.images.map((i) => i.trim()).filter(Boolean);
     if (images.length === 0) {
-      toast.error('Add at least one image URL');
+      toast.error('Add at least one product image');
       return;
     }
     const payload = {
@@ -124,9 +124,6 @@ export default function SellerProductForm() {
   };
 
   if (isEdit && isLoading) return <PageLoader />;
-
-  const setImage = (index: number, value: string) =>
-    setForm((f) => ({ ...f, images: f.images.map((img, i) => (i === index ? value : img)) }));
 
   return (
     <div className="container-page py-10">
@@ -199,35 +196,11 @@ export default function SellerProductForm() {
         </div>
 
         <div>
-          <label className="label">Image URLs</label>
-          <div className="space-y-2">
-            {form.images.map((img, i) => (
-              <div key={i} className="flex gap-2">
-                <input
-                  value={img}
-                  onChange={(e) => setImage(i, e.target.value)}
-                  placeholder="https://..."
-                  className="input"
-                />
-                {form.images.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => setForm((f) => ({ ...f, images: f.images.filter((_, idx) => idx !== i) }))}
-                    className="btn-outline !px-3"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={() => setForm((f) => ({ ...f, images: [...f.images, ''] }))}
-            className="btn-ghost mt-2 text-sm"
-          >
-            <Plus className="h-4 w-4" /> Add another image
-          </button>
+          <label className="label">Product images</label>
+          <ProductImagesField
+            images={form.images}
+            onChange={(images) => setForm((f) => ({ ...f, images }))}
+          />
         </div>
 
         {isEdit && (

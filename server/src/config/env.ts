@@ -51,4 +51,12 @@ export const env = {
     adminPassword: process.env.SEED_ADMIN_PASSWORD ?? 'Admin123!',
   },
   stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? '',
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME?.trim() ?? '',
+    apiKey: process.env.CLOUDINARY_API_KEY?.trim() ?? '',
+    apiSecret: process.env.CLOUDINARY_API_SECRET?.trim() ?? '',
+    get isConfigured(): boolean {
+      return Boolean(this.cloudName && this.apiKey && this.apiSecret);
+    },
+  },
 };

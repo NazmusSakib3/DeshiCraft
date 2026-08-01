@@ -191,6 +191,7 @@ Base path: `/api`
 | Cart/Wish  | `GET /users/wishlist`, `POST /users/wishlist/:productId`, addresses under `/users/addresses` |
 | Orders     | `POST /orders`, `GET /orders/mine`, `GET /orders/:id`, `POST /orders/:id/cancel`, `GET /orders/seller`, `PATCH /orders/:id/status` |
 | Seller     | `POST /seller/apply`, `GET /seller/dashboard` |
+| Uploads    | `POST /uploads` (seller/admin — product image to Cloudinary) |
 | Admin      | `GET /admin/stats`, `GET /admin/users`, `GET /admin/sellers`, `PATCH /admin/sellers/:id/approve`, `GET /admin/orders` |
 
 ---
