@@ -54,7 +54,7 @@ jobs:
       - name: Install
         run: npm ci --include=dev --ignore-scripts
       - name: Install Playwright browsers
-        run: npm exec -- playwright install --with-deps chromium
+        run: node node_modules/playwright/cli.js install --with-deps chromium
       - name: Run E2E tests
         run: npm run test:e2e
         env:

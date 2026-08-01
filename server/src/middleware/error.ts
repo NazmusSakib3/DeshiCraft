@@ -48,8 +48,9 @@ export function errorHandler(
   }
 
   console.error('[error]', err);
+  const errorDetail = err instanceof Error ? err.message : String(err);
   res.status(500).json({
     message: 'Internal server error',
-    ...(env.isProd ? {} : { error: err instanceof Error ? err.message : String(err) }),
+    ...(env.isProd ? {} : { error: errorDetail }),
   });
 }

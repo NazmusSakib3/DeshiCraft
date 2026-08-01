@@ -8,10 +8,10 @@ const MAX_IMAGES = 6;
 type ProductImagesFieldProps = Readonly<{
   images: string[];
   onChange: (images: string[]) => void;
-  id?: string;
+  uploadInputId?: string;
 }>;
 
-export function ProductImagesField({ images, onChange, id }: ProductImagesFieldProps) {
+export function ProductImagesField({ images, onChange, uploadInputId = 'product-images-upload' }: ProductImagesFieldProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [urlDraft, setUrlDraft] = useState('');
@@ -61,7 +61,7 @@ export function ProductImagesField({ images, onChange, id }: ProductImagesFieldP
   };
 
   return (
-    <div id={id} className="space-y-4">
+    <div className="space-y-4">
       <div className="flex flex-wrap gap-3">
         {filledImages.map((url) => (
           <div key={url} className="group relative h-24 w-24 overflow-hidden rounded-xl border border-ink/10 bg-paper">
@@ -88,6 +88,7 @@ export function ProductImagesField({ images, onChange, id }: ProductImagesFieldP
       </div>
 
       <input
+        id={uploadInputId}
         ref={fileInputRef}
         type="file"
         accept="image/jpeg,image/png,image/webp,image/gif"

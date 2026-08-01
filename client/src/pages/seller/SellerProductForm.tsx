@@ -213,9 +213,9 @@ export default function SellerProductForm() {
         </div>
 
         <div>
-          <label className="label" htmlFor="product-images">Product images</label>
+          <label className="label" htmlFor="product-images-upload">Product images</label>
           <ProductImagesField
-            id="product-images"
+            uploadInputId="product-images-upload"
             images={form.images}
             onChange={updateImages}
           />
