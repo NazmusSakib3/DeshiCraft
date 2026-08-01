@@ -30,8 +30,8 @@ export const useCartStore = create<CartState>()(
       add: (product, quantity = 1) => {
         const image = product.images[0];
         set((state) => {
-          const existing = state.lines.find((l) => l.productId === product._id);
-          if (existing) {
+          const index = state.lines.findIndex((l) => l.productId === product._id);
+          if (index >= 0) {
             return {
               lines: state.lines.map((l) =>
                 l.productId === product._id

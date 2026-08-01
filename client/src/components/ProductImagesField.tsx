@@ -65,8 +65,7 @@ export function ProductImagesField({ images, onChange }: ProductImagesFieldProps
         {filledImages.map((url, index) => (
           <div key={`${url}-${index}`} className="group relative h-24 w-24 overflow-hidden rounded-xl border border-ink/10 bg-paper">
             <img src={url} alt="" className="h-full w-full object-cover" />
-            <button
-              type="button"
+            <button type="button"
               onClick={() => removeImage(index)}
               className="absolute right-1 top-1 rounded-full bg-ink/70 p-1 text-white opacity-0 transition group-hover:opacity-100"
               aria-label="Remove image"
@@ -76,8 +75,7 @@ export function ProductImagesField({ images, onChange }: ProductImagesFieldProps
           </div>
         ))}
         {filledImages.length < MAX_IMAGES && (
-          <button
-            type="button"
+          <button type="button"
             disabled={uploading}
             onClick={() => fileInputRef.current?.click()}
             className="flex h-24 w-24 flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-ink/20 bg-white/50 text-xs text-ink/60 hover:border-forest-500 hover:text-forest-600"

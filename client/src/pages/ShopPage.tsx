@@ -69,8 +69,8 @@ export default function ShopPage() {
               <SlidersHorizontal className="h-4 w-4" /> Categories
             </h3>
             <div className="flex flex-col gap-1">
-              <button
-                onClick={() => update('category', '')}
+              <button type="button"
+              onClick={() => update('category', '')}
                 className={`rounded-lg px-3 py-2 text-left text-sm transition ${
                   !category ? 'bg-forest-500 text-white' : 'hover:bg-ink/5'
                 }`}
@@ -78,7 +78,7 @@ export default function ShopPage() {
                 All crafts
               </button>
               {(categories ?? []).map((cat) => (
-                <button
+                <button type="button"
                   key={cat._id}
                   onClick={() => update('category', cat.slug)}
                   className={`rounded-lg px-3 py-2 text-left text-sm transition ${
@@ -125,7 +125,7 @@ export default function ShopPage() {
 
               {data.totalPages > 1 && (
                 <div className="mt-10 flex items-center justify-center gap-2">
-                  <button
+                  <button type="button"
                     disabled={page <= 1}
                     onClick={() => update('page', String(page - 1))}
                     className="btn-outline"
@@ -135,7 +135,7 @@ export default function ShopPage() {
                   <span className="px-3 text-sm text-ink/60">
                     Page {data.page} of {data.totalPages}
                   </span>
-                  <button
+                  <button type="button"
                     disabled={page >= data.totalPages}
                     onClick={() => update('page', String(page + 1))}
                     className="btn-outline"

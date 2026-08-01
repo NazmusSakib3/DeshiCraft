@@ -27,6 +27,12 @@ function NavIconTooltip({
   );
 }
 
+function dashboardPathForRole(role: string | undefined): string | null {
+  if (role === 'admin') return '/admin';
+  if (role === 'seller') return '/seller';
+  return null;
+}
+
 export function Navbar() {  const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
   const count = useCartStore((s) => s.lines.reduce((sum, l) => sum + l.quantity, 0));
@@ -40,7 +46,7 @@ export function Navbar() {  const user = useAuthStore((s) => s.user);
     setMenuOpen(false);
   };
 
-  const dashboardPath = user?.role === 'admin' ? '/admin' : user?.role === 'seller' ? '/seller' : null;
+  const dashboardPath = dashboardPathForRole(user?.role);
 
   return (
     <header className="sticky top-0 z-40 border-b border-ink/8 bg-paper/85 backdrop-blur-md">
@@ -109,7 +115,7 @@ export function Navbar() {  const user = useAuthStore((s) => s.user);
                 </Link>
               </NavIconTooltip>
               <NavIconTooltip label="Log out">
-                <button onClick={() => logout()} className="btn-ghost" aria-label="Log out" title="Log out">
+                <button type="button" onClick={() => logout()} className="btn-ghost" aria-label="Log out" title="Log out">
                   <LogOut className="h-5 w-5" />
                 </button>
               </NavIconTooltip>
@@ -125,7 +131,7 @@ export function Navbar() {  const user = useAuthStore((s) => s.user);
           )}
 
           <NavIconTooltip label="Menu">
-            <button
+            <button type="button"
               onClick={() => setMenuOpen((v) => !v)}
               className="btn-ghost md:hidden"
               aria-label="Menu"
@@ -169,8 +175,8 @@ export function Navbar() {  const user = useAuthStore((s) => s.user);
                     Dashboard
                   </Link>
                 )}
-                <button
-                  onClick={() => {
+                <button type="button"
+              onClick={() => {
                     logout();
                     setMenuOpen(false);
                   }}

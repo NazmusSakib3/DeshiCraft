@@ -5,6 +5,12 @@ import toast from 'react-hot-toast';
 import { api, apiError } from '../lib/api';
 import { useAuthStore } from '../store/authStore';
 
+function sellButtonLabel(loading: boolean, signedIn: boolean): string {
+  if (loading) return 'Creating shop...';
+  if (signedIn) return 'Open my shop';
+  return 'Sign in to continue';
+}
+
 export default function SellPage() {
   const user = useAuthStore((s) => s.user);
   const bootstrap = useAuthStore((s) => s.bootstrap);
@@ -91,8 +97,8 @@ export default function SellPage() {
               <label className="label">About your craft</label>
               <textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={3} className="input" placeholder="Tell buyers your story..." />
             </div>
-            <button disabled={loading} className="btn-accent w-full">
-              {loading ? 'Creating shop...' : user ? 'Open my shop' : 'Sign in to continue'}
+            <button type="submit" disabled={loading} className="btn-accent w-full">
+              {sellButtonLabel(loading, Boolean(user))}
             </button>
           </div>
         </form>

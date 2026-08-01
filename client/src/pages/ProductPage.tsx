@@ -81,7 +81,7 @@ export default function ProductPage() {
           {product.images.length > 1 && (
             <div className="mt-3 flex gap-3">
               {product.images.map((img, i) => (
-                <button
+                <button type="button"
                   key={img}
                   onClick={() => setActiveImage(i)}
                   className={clsx(
@@ -153,21 +153,21 @@ export default function ProductPage() {
           {/* Actions */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <div className="flex items-center rounded-full border border-ink/15 bg-white">
-              <button
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
+              <button type="button"
+              onClick={() => setQty((q) => Math.max(1, q - 1))}
                 className="flex h-11 w-11 items-center justify-center text-ink/60 hover:text-ink"
               >
                 <Minus className="h-4 w-4" />
               </button>
               <span className="w-8 text-center font-semibold">{qty}</span>
-              <button
-                onClick={() => setQty((q) => Math.min(product.stock, q + 1))}
+              <button type="button"
+              onClick={() => setQty((q) => Math.min(product.stock, q + 1))}
                 className="flex h-11 w-11 items-center justify-center text-ink/60 hover:text-ink"
               >
                 <Plus className="h-4 w-4" />
               </button>
             </div>
-            <button
+            <button type="submit"
               disabled={product.stock === 0}
               onClick={() => {
                 add(product, qty);
@@ -177,7 +177,7 @@ export default function ProductPage() {
             >
               <ShoppingBag className="h-5 w-5" /> Add to cart
             </button>
-            <button onClick={handleWishlist} className="btn-outline h-11 w-11 !px-0" aria-label="Wishlist">
+            <button type="button" onClick={handleWishlist} className="btn-outline h-11 w-11 !px-0" aria-label="Wishlist">
               <Heart className={clsx('h-5 w-5', isWished && 'fill-clay-500 text-clay-500')} />
             </button>
           </div>
@@ -225,8 +225,8 @@ function ReviewSection({ slug, reviews }: { slug: string; reviews: Review[] }) {
           <div className="mb-3 flex gap-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
-                key={star}
                 type="button"
+                key={star}
                 onClick={() => setRating(star)}
                 className={clsx('text-2xl', star <= rating ? 'text-brass-400' : 'text-ink/20')}
               >
@@ -243,7 +243,7 @@ function ReviewSection({ slug, reviews }: { slug: string; reviews: Review[] }) {
             placeholder="Share your experience with this product..."
             className="input"
           />
-          <button disabled={mutation.isPending} className="btn-primary mt-3">
+          <button type="submit" disabled={mutation.isPending} className="btn-primary mt-3">
             {mutation.isPending ? 'Posting...' : 'Post review'}
           </button>
           <p className="mt-2 text-xs text-ink/50">

@@ -57,8 +57,7 @@ export function ProductCard({ product }: { product: Product }) {
         {discount > 0 && (
           <span className="absolute left-3 top-3 badge bg-clay-500 text-white">-{discount}%</span>
         )}
-        <button
-          type="button"
+        <button type="button"
           onClick={handleWishlist}
           aria-label="Toggle wishlist"
           className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-ink/60 shadow transition hover:text-clay-500"
@@ -94,8 +93,7 @@ export function ProductCard({ product }: { product: Product }) {
               </span>
             )}
           </div>
-          <button
-            type="button"
+          <button type="button"
             onClick={handleAdd}
             disabled={product.stock === 0}
             aria-label="Add to cart"

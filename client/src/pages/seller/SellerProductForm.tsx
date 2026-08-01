@@ -37,6 +37,17 @@ const initial: FormState = {
   isActive: true,
 };
 
+function saveProductLabel(saving: boolean, isEdit: boolean): string {
+  if (saving) return 'Saving...';
+  if (isEdit) return 'Save changes';
+  return 'Create product';
+}
+
+async function fetchSellerProduct(id: string): Promise<Product | null> {
+  const { data } = await api.get<{ items: Product[] }>('/products/mine');
+  return data.items.find((p) => p._id === id) ?? null;
+}
+
 export default function SellerProductForm() {
   const { id } = useParams<{ id: string }>();
   const isEdit = !!id;
@@ -54,10 +65,7 @@ export default function SellerProductForm() {
 
   const { data: existing, isLoading } = useQuery({
     queryKey: ['seller', 'product', id],
-    queryFn: async () => {
-      const { data } = await api.get<{ items: Product[] }>('/products/mine');
-      return data.items.find((p) => p._id === id) ?? null;
-    },
+    queryFn: () => fetchSellerProduct(id!),
     enabled: isEdit,
   });
 
@@ -80,7 +88,7 @@ export default function SellerProductForm() {
   }, [existing]);
 
   useEffect(() => {
-    if (categories && categories.length && !form.category) {
+    if (categories?.length && !form.category) {
       setForm((f) => ({ ...f, category: categories[0]._id }));
     }
   }, [categories, form.category]);
@@ -216,8 +224,8 @@ export default function SellerProductForm() {
         )}
 
         <div className="flex gap-3">
-          <button disabled={saving} className="btn-primary">
-            {saving ? 'Saving...' : isEdit ? 'Save changes' : 'Create product'}
+          <button type="submit" disabled={saving} className="btn-primary">
+            {saveProductLabel(saving, isEdit)}
           </button>
           <button type="button" onClick={() => navigate('/seller/products')} className="btn-outline">
             Cancel

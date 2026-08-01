@@ -21,6 +21,12 @@ const emptyAddress: Address = {
   postalCode: '',
 };
 
+function placeOrderLabel(placing: boolean, isOnlinePayment: boolean): string {
+  if (placing) return 'Processing...';
+  if (isOnlinePayment) return 'Continue to payment';
+  return 'Place order';
+}
+
 export default function CheckoutPage() {
   const { lines, subtotal, clear } = useCartStore();
   const navigate = useNavigate();
@@ -141,8 +147,7 @@ export default function CheckoutPage() {
           <section className="card p-6">
             <h2 className="mb-4 text-lg font-bold text-ink">Payment method</h2>
             <div className="grid gap-3">
-              <button
-                type="button"
+              <button type="button"
                 onClick={() => setPayment('cod')}
                 className={clsx(
                   'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition',
@@ -155,8 +160,7 @@ export default function CheckoutPage() {
                   <p className="text-xs text-ink/50">Pay when your order arrives</p>
                 </div>
               </button>
-              <button
-                type="button"
+              <button type="button"
                 onClick={() => setPayment('stripe')}
                 className={clsx(
                   'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition',
@@ -169,8 +173,7 @@ export default function CheckoutPage() {
                   <p className="text-xs text-ink/50">Visa, Mastercard, and international cards</p>
                 </div>
               </button>
-              <button
-                type="button"
+              <button type="button"
                 onClick={() => setPayment('sslcommerz')}
                 className={clsx(
                   'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition',
@@ -214,12 +217,8 @@ export default function CheckoutPage() {
               <dd className="font-bold text-forest-500">{formatBDT(sub + SHIPPING_FEE)}</dd>
             </div>
           </dl>
-          <button disabled={placing} className="btn-primary mt-5 w-full">
-            {placing
-              ? 'Processing...'
-              : isOnlinePayment
-                ? 'Continue to payment'
-                : 'Place order'}
+          <button type="submit" disabled={placing} className="btn-primary mt-5 w-full">
+            {placeOrderLabel(placing, isOnlinePayment)}
           </button>
         </div>
       </form>

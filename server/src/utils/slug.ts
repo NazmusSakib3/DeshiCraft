@@ -1,3 +1,5 @@
+import { randomBytes } from 'node:crypto';
+
 export function slugify(input: string): string {
   return input
     .toLowerCase()
@@ -9,6 +11,6 @@ export function slugify(input: string): string {
 
 export function uniqueSlug(input: string): string {
   const base = slugify(input) || 'item';
-  const suffix = Math.random().toString(36).slice(2, 7);
+  const suffix = randomBytes(4).toString('hex').slice(0, 5);
   return `${base}-${suffix}`;
 }

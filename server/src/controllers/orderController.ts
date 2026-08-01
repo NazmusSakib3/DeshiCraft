@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto';
 import type { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { Order, type OrderItem, type OrderStatus } from '../models/Order.js';
@@ -12,7 +13,7 @@ function generateOrderNumber(): string {
   const stamp = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(
     date.getDate(),
   ).padStart(2, '0')}`;
-  const rand = Math.random().toString(36).slice(2, 7).toUpperCase();
+  const rand = randomBytes(4).toString('hex').slice(0, 5).toUpperCase();
   return `DC-${stamp}-${rand}`;
 }
 

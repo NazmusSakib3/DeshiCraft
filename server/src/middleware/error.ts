@@ -31,12 +31,12 @@ export function errorHandler(
   }
 
   if (err instanceof multer.MulterError) {
-    const message =
-      err.code === 'LIMIT_FILE_SIZE'
-        ? 'Image must be 5 MB or smaller'
-        : err.code === 'LIMIT_UNEXPECTED_FILE'
-          ? 'Unexpected file field. Use field name "image".'
-          : err.message;
+    let message = err.message;
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      message = 'Image must be 5 MB or smaller';
+    } else if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+      message = 'Unexpected file field. Use field name "image".';
+    }
     res.status(400).json({ message });
     return;
   }

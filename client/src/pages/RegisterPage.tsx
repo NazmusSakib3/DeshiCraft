@@ -53,7 +53,7 @@ export default function RegisterPage() {
               placeholder="At least 6 characters"
             />
           </div>
-          <button disabled={loading} className="btn-primary w-full">
+          <button type="submit" disabled={loading} className="btn-primary w-full">
             {loading ? 'Creating account...' : 'Create account'}
           </button>
         </form>

@@ -183,7 +183,7 @@ async function run() {
   const customer = await User.create({
     name: 'Ayesha Rahman',
     email: 'customer@deshicraft.local',
-    password: 'Customer123!',
+    password: env.seed.customerPassword,
     role: 'customer',
     addresses: [
       {
@@ -203,7 +203,7 @@ async function run() {
     const user = await User.create({
       name: s.name,
       email: s.email,
-      password: 'Seller123!',
+      password: env.seed.sellerPassword,
       role: 'seller',
       sellerProfile: { shopName: s.shopName, bio: s.bio, region: s.region, approved: true },
     });
@@ -270,8 +270,8 @@ async function run() {
 
   console.log('\n[seed] done. Accounts:');
   console.log(`  admin    -> ${admin.email} / ${env.seed.adminPassword}`);
-  console.log('  customer -> customer@deshicraft.local / Customer123!');
-  console.log('  seller   -> rina@deshicraft.local / Seller123!');
+  console.log(`  customer -> customer@deshicraft.local / ${env.seed.customerPassword}`);
+  console.log(`  seller   -> rina@deshicraft.local / ${env.seed.sellerPassword}`);
 
   await disconnectDB();
 }

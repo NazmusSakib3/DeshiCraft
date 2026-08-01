@@ -61,8 +61,8 @@ export default function AdminCategories() {
                     <p className="font-semibold text-ink">{cat.name}</p>
                     <p className="line-clamp-1 text-xs text-ink/50">{cat.description}</p>
                   </div>
-                  <button
-                    onClick={() => {
+                  <button type="button"
+              onClick={() => {
                       if (confirm(`Delete "${cat.name}"?`)) remove.mutate(cat._id);
                     }}
                     className="text-ink/40 hover:text-clay-500"
@@ -96,7 +96,7 @@ export default function AdminCategories() {
               <label className="label">Image URL</label>
               <input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://..." className="input" />
             </div>
-            <button disabled={create.isPending} className="btn-primary w-full">
+            <button type="submit" disabled={create.isPending} className="btn-primary w-full">
               <Plus className="h-4 w-4" /> Create category
             </button>
           </div>

@@ -72,7 +72,7 @@ export default function AccountPage() {
           <section className="card p-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold text-ink">Saved addresses</h2>
-              <button onClick={() => setShowForm((v) => !v)} className="btn-outline text-sm">
+              <button type="button" onClick={() => setShowForm((v) => !v)} className="btn-outline text-sm">
                 <Plus className="h-4 w-4" /> Add
               </button>
             </div>
@@ -98,7 +98,7 @@ export default function AccountPage() {
                 <input value={form.street} onChange={set('street')} required placeholder="Street address" className="input sm:col-span-2" />
                 <input value={form.city} onChange={set('city')} required placeholder="City / Area" className="input" />
                 <input value={form.postalCode ?? ''} onChange={set('postalCode')} placeholder="Postal code" className="input" />
-                <button disabled={addAddress.isPending} className="btn-primary sm:col-span-2">
+                <button type="submit" disabled={addAddress.isPending} className="btn-primary sm:col-span-2">
                   Save address
                 </button>
               </form>
@@ -117,8 +117,8 @@ export default function AccountPage() {
                         {addr.street}, {addr.city}, {addr.district} {addr.postalCode}
                       </p>
                     </div>
-                    <button
-                      onClick={() => addr._id && deleteAddress.mutate(addr._id)}
+                    <button type="button"
+              onClick={() => addr._id && deleteAddress.mutate(addr._id)}
                       className="text-ink/40 hover:text-clay-500"
                     >
                       <Trash2 className="h-4 w-4" />

@@ -1,6 +1,13 @@
 import dotenv from 'dotenv';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  DEV_JWT_ACCESS_SECRET,
+  DEV_JWT_REFRESH_SECRET,
+  DEV_SEED_ADMIN_PASSWORD,
+  DEV_SEED_CUSTOMER_PASSWORD,
+  DEV_SEED_SELLER_PASSWORD,
+} from './devDefaults.js';
 
 const serverRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 dotenv.config({ path: path.join(serverRoot, '.env') });
@@ -40,15 +47,17 @@ export const env = {
   isProd: (process.env.NODE_ENV ?? 'development') === 'production',
   mongoUri: mongoUri('MONGO_URI', 'mongodb://127.0.0.1:27017/deshicraft'),
   jwt: {
-    accessSecret: required('JWT_ACCESS_SECRET', 'dev-access-secret-change-me-please-32chars'),
-    refreshSecret: required('JWT_REFRESH_SECRET', 'dev-refresh-secret-change-me-please-32chars'),
+    accessSecret: required('JWT_ACCESS_SECRET', DEV_JWT_ACCESS_SECRET),
+    refreshSecret: required('JWT_REFRESH_SECRET', DEV_JWT_REFRESH_SECRET),
     accessExpires: process.env.JWT_ACCESS_EXPIRES ?? '15m',
     refreshExpires: process.env.JWT_REFRESH_EXPIRES ?? '7d',
   },
   clientUrl: clientUrl('CLIENT_URL', 'http://localhost:5173'),
   seed: {
     adminEmail: process.env.SEED_ADMIN_EMAIL ?? 'admin@deshicraft.local',
-    adminPassword: process.env.SEED_ADMIN_PASSWORD ?? 'Admin123!',
+    adminPassword: process.env.SEED_ADMIN_PASSWORD ?? DEV_SEED_ADMIN_PASSWORD,
+    customerPassword: process.env.SEED_CUSTOMER_PASSWORD ?? DEV_SEED_CUSTOMER_PASSWORD,
+    sellerPassword: process.env.SEED_SELLER_PASSWORD ?? DEV_SEED_SELLER_PASSWORD,
   },
   serverUrl: (() => {
     let url = (process.env.API_URL ?? `http://localhost:${process.env.PORT ?? 5000}`).trim();

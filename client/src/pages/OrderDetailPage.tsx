@@ -120,8 +120,8 @@ export default function OrderDetailPage() {
       <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_320px]">
         {/* Items */}
         <div className="space-y-3">
-          {order.items.map((item, i) => (
-            <div key={i} className="flex items-center gap-4 rounded-2xl border border-ink/8 bg-white p-4">
+          {order.items.map((item) => (
+            <div key={`${item.title}-${item.image}`} className="flex items-center gap-4 rounded-2xl border border-ink/8 bg-white p-4">
               <img src={item.image} alt="" className="h-16 w-16 rounded-xl object-cover" />
               <div className="flex-1">
                 <p className="font-semibold text-ink">{item.title}</p>
@@ -134,7 +134,7 @@ export default function OrderDetailPage() {
           ))}
 
           {['pending', 'confirmed'].includes(order.status) && (
-            <button
+            <button type="button"
               onClick={() => cancel.mutate()}
               disabled={cancel.isPending}
               className="btn-outline text-clay-600"

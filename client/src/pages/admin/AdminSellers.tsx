@@ -70,15 +70,15 @@ export default function AdminSellers() {
               )}
               <div className="mt-4">
                 {seller.sellerProfile?.approved ? (
-                  <button
-                    onClick={() => approve.mutate({ id: seller._id, approved: false })}
+                  <button type="button"
+              onClick={() => approve.mutate({ id: seller._id, approved: false })}
                     className="btn-outline text-sm"
                   >
                     Revoke verification
                   </button>
                 ) : (
-                  <button
-                    onClick={() => approve.mutate({ id: seller._id, approved: true })}
+                  <button type="button"
+              onClick={() => approve.mutate({ id: seller._id, approved: true })}
                     className="btn-primary text-sm"
                   >
                     Verify seller

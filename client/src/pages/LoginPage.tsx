@@ -58,7 +58,7 @@ export default function LoginPage() {
                 placeholder="********"
               />
             </div>
-            <button disabled={loading} className="btn-primary w-full">
+            <button type="submit" disabled={loading} className="btn-primary w-full">
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </form>

@@ -17,7 +17,7 @@ jobs:
           node-version: 20
           cache: npm
       - name: Install
-        run: npm ci --include=dev
+        run: npm ci --include=dev --ignore-scripts
       - name: Typecheck
         run: npm run typecheck --workspace @deshicraft/server
       - name: Build
@@ -35,7 +35,7 @@ jobs:
           node-version: 20
           cache: npm
       - name: Install
-        run: npm ci --include=dev
+        run: npm ci --include=dev --ignore-scripts
       - name: Typecheck
         run: npm run typecheck --workspace @deshicraft/client
       - name: Build
@@ -52,9 +52,9 @@ jobs:
           node-version: 20
           cache: npm
       - name: Install
-        run: npm ci --include=dev
+        run: npm ci --include=dev --ignore-scripts
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npm exec -- playwright install --with-deps chromium
       - name: Run E2E tests
         run: npm run test:e2e
         env:

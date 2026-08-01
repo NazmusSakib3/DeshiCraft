@@ -88,8 +88,8 @@ export default function SellerProducts() {
                       <Link to={`/seller/products/${p._id}/edit`} className="btn-ghost !px-2" aria-label="Edit">
                         <Pencil className="h-4 w-4" />
                       </Link>
-                      <button
-                        onClick={() => {
+                      <button type="button"
+              onClick={() => {
                           if (confirm(`Delete "${p.title}"?`)) remove.mutate(p._id);
                         }}
                         className="btn-ghost !px-2 text-clay-500"

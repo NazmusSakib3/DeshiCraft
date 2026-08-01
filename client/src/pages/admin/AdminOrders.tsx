@@ -96,13 +96,13 @@ export default function AdminOrders() {
 
           {data && data.totalPages > 1 && (
             <div className="mt-6 flex items-center justify-center gap-2">
-              <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="btn-outline">
+              <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="btn-outline">
                 Previous
               </button>
               <span className="px-3 text-sm text-ink/60">
                 Page {data.page} of {data.totalPages}
               </span>
-              <button disabled={page >= data.totalPages} onClick={() => setPage((p) => p + 1)} className="btn-outline">
+              <button type="button" disabled={page >= data.totalPages} onClick={() => setPage((p) => p + 1)} className="btn-outline">
                 Next
               </button>
             </div>

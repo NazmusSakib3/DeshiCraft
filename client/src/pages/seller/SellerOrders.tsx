@@ -68,8 +68,8 @@ export default function SellerOrders() {
                   <div className="flex items-center gap-3">
                     <OrderStatusBadge status={order.status} />
                     {action && (
-                      <button
-                        onClick={() => updateStatus.mutate({ id: order._id, status: action.to })}
+                      <button type="button"
+              onClick={() => updateStatus.mutate({ id: order._id, status: action.to })}
                         disabled={updateStatus.isPending}
                         className="btn-primary text-sm"
                       >

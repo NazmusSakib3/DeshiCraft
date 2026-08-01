@@ -173,8 +173,8 @@ export default function AdminUsers() {
                         {canModerate(u) ? (
                           <>
                             {u.isBlocked ? (
-                              <button
-                                onClick={() => blockUser.mutate({ id: u._id, blocked: false })}
+                              <button type="button"
+              onClick={() => blockUser.mutate({ id: u._id, blocked: false })}
                                 disabled={blockUser.isPending}
                                 className="btn-ghost !px-2 text-forest-600"
                                 title="Unblock user"
@@ -182,8 +182,8 @@ export default function AdminUsers() {
                                 <ShieldCheck className="h-4 w-4" />
                               </button>
                             ) : (
-                              <button
-                                onClick={() => handleBlock(u)}
+                              <button type="button"
+              onClick={() => handleBlock(u)}
                                 disabled={blockUser.isPending}
                                 className="btn-ghost !px-2 text-brass-500"
                                 title="Block user"
@@ -191,8 +191,8 @@ export default function AdminUsers() {
                                 <Ban className="h-4 w-4" />
                               </button>
                             )}
-                            <button
-                              onClick={() => handleDelete(u)}
+                            <button type="button"
+              onClick={() => handleDelete(u)}
                               disabled={removeUser.isPending}
                               className="btn-ghost !px-2 text-clay-600"
                               title="Remove user permanently"
@@ -213,14 +213,14 @@ export default function AdminUsers() {
 
           {data && data.totalPages > 1 && (
             <div className="mt-6 flex items-center justify-center gap-2">
-              <button disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="btn-outline">
+              <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="btn-outline">
                 Previous
               </button>
               <span className="px-3 text-sm text-ink/60">
                 Page {data.page} of {data.totalPages}
               </span>
-              <button
-                disabled={page >= data.totalPages}
+              <button type="button"
+                    disabled={page >= data.totalPages}
                 onClick={() => setPage((p) => p + 1)}
                 className="btn-outline"
               >

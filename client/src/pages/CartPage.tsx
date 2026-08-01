@@ -55,22 +55,22 @@ export default function CartPage() {
                   <Link to={`/product/${line.slug}`} className="font-semibold text-ink hover:text-forest-500">
                     {line.title}
                   </Link>
-                  <button onClick={() => remove(line.productId)} className="text-ink/40 hover:text-clay-500">
+                  <button type="button" onClick={() => remove(line.productId)} className="text-ink/40 hover:text-clay-500">
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
                 <p className="text-sm text-ink/50">{formatBDT(line.price)} each</p>
                 <div className="mt-auto flex items-center justify-between">
                   <div className="flex items-center rounded-full border border-ink/15">
-                    <button
-                      onClick={() => setQuantity(line.productId, line.quantity - 1)}
+                    <button type="button"
+              onClick={() => setQuantity(line.productId, line.quantity - 1)}
                       className="flex h-8 w-8 items-center justify-center text-ink/60"
                     >
                       <Minus className="h-3.5 w-3.5" />
                     </button>
                     <span className="w-8 text-center text-sm font-semibold">{line.quantity}</span>
-                    <button
-                      onClick={() => setQuantity(line.productId, line.quantity + 1)}
+                    <button type="button"
+              onClick={() => setQuantity(line.productId, line.quantity + 1)}
                       className="flex h-8 w-8 items-center justify-center text-ink/60"
                     >
                       <Plus className="h-3.5 w-3.5" />
@@ -99,7 +99,7 @@ export default function CartPage() {
               <dd className="font-bold text-forest-500">{formatBDT(sub + SHIPPING_FEE)}</dd>
             </div>
           </dl>
-          <button onClick={checkout} className="btn-primary mt-5 w-full">
+          <button type="button" onClick={checkout} className="btn-primary mt-5 w-full">
             Proceed to checkout
           </button>
           <Link to="/shop" className="btn-ghost mt-2 w-full">

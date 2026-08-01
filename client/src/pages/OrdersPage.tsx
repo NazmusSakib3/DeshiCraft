@@ -43,9 +43,9 @@ export default function OrdersPage() {
             >
               <div className="flex items-center gap-4">
                 <div className="flex -space-x-3">
-                  {order.items.slice(0, 3).map((item, i) => (
+                  {order.items.slice(0, 3).map((item) => (
                     <img
-                      key={i}
+                      key={`${order._id}-${item.image}`}
                       src={item.image}
                       alt=""
                       className="h-12 w-12 rounded-full border-2 border-white object-cover"
