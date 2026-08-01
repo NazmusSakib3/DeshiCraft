@@ -15,3 +15,9 @@ Add PNG captures from the live demo (or local dev) and name them as below.
 | `09-stripe.png` | Stripe Checkout test payment page (optional) |
 
 **Tip:** Sign in as `customer@deshicraft.local` / `Customer123!` for checkout screenshots.
+
+Or run the capture script (requires Playwright Chromium installed):
+
+```bash
+node scripts/capture-screenshots.mjs
+```
