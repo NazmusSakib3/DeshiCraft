@@ -31,7 +31,7 @@ export async function initiatePayment(
   customerEmail: string,
 ): Promise<{ gatewayUrl: string; tranId: string }> {
   const tranId = order.orderNumber;
-  const payload = {
+  const payload: Record<string, string> = {
     store_id: env.sslcommerz.storeId,
     store_passwd: env.sslcommerz.storePassword,
     total_amount: formatAmount(order.total),
@@ -57,11 +57,17 @@ export async function initiatePayment(
 
   const res = await fetch(`${env.sslcommerz.apiBase}/gwprocess/v4/api.php`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(payload),
   });
 
-  const data = (await res.json()) as SslInitResponse;
+  const text = await res.text();
+  let data: SslInitResponse;
+  try {
+    data = JSON.parse(text) as SslInitResponse;
+  } catch {
+    throw new Error('SSLCommerz returned an invalid response');
+  }
   if (data.status !== 'SUCCESS' || !data.GatewayPageURL) {
     throw new Error(data.failedreason ?? 'SSLCommerz payment initiation failed');
   }

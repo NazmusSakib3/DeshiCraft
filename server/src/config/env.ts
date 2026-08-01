@@ -50,7 +50,11 @@ export const env = {
     adminEmail: process.env.SEED_ADMIN_EMAIL ?? 'admin@deshicraft.local',
     adminPassword: process.env.SEED_ADMIN_PASSWORD ?? 'Admin123!',
   },
-  serverUrl: (process.env.API_URL ?? `http://localhost:${process.env.PORT ?? 5000}`).replace(/\/$/, ''),
+  serverUrl: (() => {
+    let url = (process.env.API_URL ?? `http://localhost:${process.env.PORT ?? 5000}`).trim();
+    if (url.startsWith('//')) url = `https:${url}`;
+    return url.replace(/\/$/, '');
+  })(),
   stripe: {
     secretKey: process.env.STRIPE_SECRET_KEY?.trim() ?? '',
     webhookSecret: process.env.STRIPE_WEBHOOK_SECRET?.trim() ?? '',

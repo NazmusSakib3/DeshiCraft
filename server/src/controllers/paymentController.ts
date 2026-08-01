@@ -108,11 +108,15 @@ export const initiateSslcommerz = asyncHandler(async (req: Request, res: Respons
   const user = await User.findById(req.user!.id).select('email');
   if (!user?.email) throw ApiError.badRequest('Customer email is required for online payment');
 
-  const { gatewayUrl, tranId } = await initiatePayment(order, order.shippingAddress, user.email);
-  order.sslTranId = tranId;
-  await order.save();
-
-  res.json({ url: gatewayUrl });
+  try {
+    const { gatewayUrl, tranId } = await initiatePayment(order, order.shippingAddress, user.email);
+    order.sslTranId = tranId;
+    await order.save();
+    res.json({ url: gatewayUrl });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'SSLCommerz payment initiation failed';
+    throw ApiError.badRequest(message);
+  }
 });
 
 export const sslcommerzIpn = asyncHandler(async (req: Request, res: Response) => {

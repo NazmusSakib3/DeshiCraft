@@ -60,7 +60,7 @@ Checkout supports three methods:
 ### SSLCommerz setup
 
 1. Register at [sslcommerz.com](https://sslcommerz.com) (sandbox for testing).
-2. Sandbox test credentials: store `testbox` / password `testbox`.
+2. Sandbox test credentials: store `testbox` / password `qwerty`.
 3. Add to Render / `server/.env`:
 
 | Variable | Value |
