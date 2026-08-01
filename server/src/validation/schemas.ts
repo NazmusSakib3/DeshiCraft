@@ -69,7 +69,11 @@ export const orderSchema = z.object({
     )
     .min(1),
   shippingAddress: addressSchema,
-  paymentMethod: z.enum(['cod', 'stripe']),
+  paymentMethod: z.enum(['cod', 'stripe', 'sslcommerz']),
+});
+
+export const paymentSessionSchema = z.object({
+  orderId: z.string().min(1),
 });
 
 export const orderStatusSchema = z.object({

@@ -50,7 +50,25 @@ export const env = {
     adminEmail: process.env.SEED_ADMIN_EMAIL ?? 'admin@deshicraft.local',
     adminPassword: process.env.SEED_ADMIN_PASSWORD ?? 'Admin123!',
   },
-  stripeSecretKey: process.env.STRIPE_SECRET_KEY ?? '',
+  serverUrl: (process.env.API_URL ?? `http://localhost:${process.env.PORT ?? 5000}`).replace(/\/$/, ''),
+  stripe: {
+    secretKey: process.env.STRIPE_SECRET_KEY?.trim() ?? '',
+    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET?.trim() ?? '',
+    get isConfigured(): boolean {
+      return Boolean(this.secretKey);
+    },
+  },
+  sslcommerz: {
+    storeId: process.env.SSLCOMMERZ_STORE_ID?.trim() ?? '',
+    storePassword: process.env.SSLCOMMERZ_STORE_PASSWORD?.trim() ?? '',
+    isLive: process.env.SSLCOMMERZ_IS_LIVE === 'true',
+    get apiBase(): string {
+      return this.isLive ? 'https://securepay.sslcommerz.com' : 'https://sandbox.sslcommerz.com';
+    },
+    get isConfigured(): boolean {
+      return Boolean(this.storeId && this.storePassword);
+    },
+  },
   cloudinary: {
     cloudName: process.env.CLOUDINARY_CLOUD_NAME?.trim() ?? '',
     apiKey: process.env.CLOUDINARY_API_KEY?.trim() ?? '',

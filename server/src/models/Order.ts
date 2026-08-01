@@ -2,7 +2,7 @@ import mongoose, { Schema, type Document, type Model, type Types } from 'mongoos
 import type { Address } from './User.js';
 
 export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
-export type PaymentMethod = 'cod' | 'stripe';
+export type PaymentMethod = 'cod' | 'stripe' | 'sslcommerz';
 export type PaymentStatus = 'unpaid' | 'paid' | 'refunded';
 
 export interface OrderItem {
@@ -25,6 +25,8 @@ export interface IOrder extends Document {
   total: number;
   paymentMethod: PaymentMethod;
   paymentStatus: PaymentStatus;
+  stripeSessionId?: string;
+  sslTranId?: string;
   status: OrderStatus;
   createdAt: Date;
   updatedAt: Date;
@@ -63,8 +65,10 @@ const orderSchema = new Schema<IOrder>(
     itemstotal: { type: Number, required: true, min: 0 },
     shippingfee: { type: Number, required: true, min: 0, default: 0 },
     total: { type: Number, required: true, min: 0 },
-    paymentMethod: { type: String, enum: ['cod', 'stripe'], required: true },
+    paymentMethod: { type: String, enum: ['cod', 'stripe', 'sslcommerz'], required: true },
     paymentStatus: { type: String, enum: ['unpaid', 'paid', 'refunded'], default: 'unpaid' },
+    stripeSessionId: { type: String },
+    sslTranId: { type: String },
     status: {
       type: String,
       enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'],

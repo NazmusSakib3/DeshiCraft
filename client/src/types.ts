@@ -63,7 +63,7 @@ export interface Address {
 }
 
 export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
-export type PaymentMethod = 'cod' | 'stripe';
+export type PaymentMethod = 'cod' | 'stripe' | 'sslcommerz';
 export type PaymentStatus = 'unpaid' | 'paid' | 'refunded';
 
 export interface OrderItem {

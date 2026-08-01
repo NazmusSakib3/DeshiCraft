@@ -1,18 +1,33 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { CheckCircle2, Circle, MapPin } from 'lucide-react';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
 import { api, apiError } from '../lib/api';
-import type { Order, OrderStatus } from '../types';
+import type { Order, OrderStatus, PaymentMethod } from '../types';
 import { formatBDT, formatDate } from '../lib/format';
 import { OrderStatusBadge, PaymentStatusBadge } from '../components/StatusBadge';
 import { PageLoader } from '../components/Spinner';
 
 const steps: OrderStatus[] = ['pending', 'confirmed', 'shipped', 'delivered'];
 
+function paymentMethodLabel(method: PaymentMethod): string {
+  switch (method) {
+    case 'cod':
+      return 'Cash on delivery';
+    case 'stripe':
+      return 'Card (Stripe)';
+    case 'sslcommerz':
+      return 'SSLCommerz';
+    default:
+      return method;
+  }
+}
+
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
 
   const { data: order, isLoading } = useQuery({
@@ -23,6 +38,19 @@ export default function OrderDetailPage() {
     },
     enabled: !!id,
   });
+
+  useEffect(() => {
+    const payment = searchParams.get('payment');
+    if (!payment) return;
+
+    if (payment === 'success') toast.success('Payment received. Thank you!');
+    if (payment === 'failed') toast.error('Payment failed. You can try again from checkout.');
+    if (payment === 'cancelled') toast('Payment cancelled.', { icon: 'ℹ️' });
+
+    searchParams.delete('payment');
+    setSearchParams(searchParams, { replace: true });
+    void queryClient.invalidateQueries({ queryKey: ['order', id] });
+  }, [searchParams, setSearchParams, queryClient, id]);
 
   const cancel = useMutation({
     mutationFn: async () => api.post(`/orders/${id}/cancel`),
@@ -148,7 +176,7 @@ export default function OrderDetailPage() {
                 <dd className="text-forest-500">{formatBDT(order.total)}</dd>
               </div>
               <p className="pt-2 text-xs uppercase tracking-wide text-ink/40">
-                Payment: {order.paymentMethod === 'cod' ? 'Cash on delivery' : 'Card (sandbox)'}
+                Payment: {paymentMethodLabel(order.paymentMethod)}
               </p>
             </dl>
           </div>

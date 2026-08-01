@@ -7,9 +7,12 @@ import rateLimit from 'express-rate-limit';
 import { env } from './config/env.js';
 import apiRouter from './routes/index.js';
 import { errorHandler, notFoundHandler } from './middleware/error.js';
+import { stripeWebhook } from './controllers/paymentController.js';
 
 export function createApp() {
   const app = express();
+
+  app.post('/api/payments/stripe/webhook', express.raw({ type: 'application/json' }), stripeWebhook);
 
   app.use(helmet());
   app.use(

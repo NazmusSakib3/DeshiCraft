@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Banknote, CreditCard } from 'lucide-react';
+import { Banknote, CreditCard, Smartphone } from 'lucide-react';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
 import { api, apiError } from '../lib/api';
@@ -65,6 +65,25 @@ export default function CheckoutPage() {
         },
         paymentMethod: payment,
       });
+
+      if (payment === 'stripe') {
+        const { data: checkout } = await api.post<{ url: string }>('/payments/stripe/checkout', {
+          orderId: data.order._id,
+        });
+        clear();
+        window.location.href = checkout.url;
+        return;
+      }
+
+      if (payment === 'sslcommerz') {
+        const { data: gateway } = await api.post<{ url: string }>('/payments/sslcommerz/init', {
+          orderId: data.order._id,
+        });
+        clear();
+        window.location.href = gateway.url;
+        return;
+      }
+
       clear();
       toast.success('Order placed successfully!');
       navigate(`/orders/${data.order._id}`);
@@ -76,6 +95,7 @@ export default function CheckoutPage() {
   };
 
   const sub = subtotal();
+  const isOnlinePayment = payment === 'stripe' || payment === 'sslcommerz';
 
   return (
     <div className="container-page py-10">
@@ -120,7 +140,7 @@ export default function CheckoutPage() {
           {/* Payment */}
           <section className="card p-6">
             <h2 className="mb-4 text-lg font-bold text-ink">Payment method</h2>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3">
               <button
                 type="button"
                 onClick={() => setPayment('cod')}
@@ -145,8 +165,22 @@ export default function CheckoutPage() {
               >
                 <CreditCard className="h-6 w-6 text-forest-500" />
                 <div>
-                  <p className="font-semibold text-ink">Card (sandbox)</p>
-                  <p className="text-xs text-ink/50">Demo payment - no real charge</p>
+                  <p className="font-semibold text-ink">Card (Stripe)</p>
+                  <p className="text-xs text-ink/50">Visa, Mastercard, and international cards</p>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPayment('sslcommerz')}
+                className={clsx(
+                  'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition',
+                  payment === 'sslcommerz' ? 'border-forest-500 bg-forest-50' : 'border-ink/10 hover:border-ink/20',
+                )}
+              >
+                <Smartphone className="h-6 w-6 text-forest-500" />
+                <div>
+                  <p className="font-semibold text-ink">SSLCommerz</p>
+                  <p className="text-xs text-ink/50">bKash, Nagad, Rocket, and local cards</p>
                 </div>
               </button>
             </div>
@@ -181,7 +215,11 @@ export default function CheckoutPage() {
             </div>
           </dl>
           <button disabled={placing} className="btn-primary mt-5 w-full">
-            {placing ? 'Placing order...' : 'Place order'}
+            {placing
+              ? 'Processing...'
+              : isOnlinePayment
+                ? 'Continue to payment'
+                : 'Place order'}
           </button>
         </div>
       </form>

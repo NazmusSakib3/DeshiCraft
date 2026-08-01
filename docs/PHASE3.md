@@ -33,12 +33,60 @@ Sellers can upload product images from the seller dashboard instead of pasting U
 
 ---
 
-## 2. Stripe Checkout (next)
+## 2. Stripe + SSLCommerz payments ✅ (implemented)
 
-- Wire Stripe Checkout Session + webhook for `paymentStatus: paid`.
-- Keep COD as alternative.
+Checkout supports three methods:
 
-## 3. Playwright E2E (after Stripe or in parallel)
+| Method | Flow |
+|--------|------|
+| **COD** | Order created immediately, pay on delivery |
+| **Stripe** | Order created → redirect to Stripe Checkout → webhook marks paid |
+| **SSLCommerz** | Order created → redirect to gateway → IPN/success callback marks paid |
+
+### Stripe setup
+
+1. [Stripe Dashboard](https://dashboard.stripe.com) → **Developers → API keys** → copy **Secret key**.
+2. **Developers → Webhooks** → add endpoint:
+   - URL: `https://deshicraft-api.onrender.com/api/payments/stripe/webhook`
+   - Events: `checkout.session.completed`
+   - Copy **Signing secret**
+3. Add to Render / `server/.env`:
+
+| Variable | Value |
+|----------|--------|
+| `STRIPE_SECRET_KEY` | `sk_test_...` or live key |
+| `STRIPE_WEBHOOK_SECRET` | `whsec_...` |
+
+### SSLCommerz setup
+
+1. Register at [sslcommerz.com](https://sslcommerz.com) (sandbox for testing).
+2. Sandbox test credentials: store `testbox` / password `testbox`.
+3. Add to Render / `server/.env`:
+
+| Variable | Value |
+|----------|--------|
+| `SSLCOMMERZ_STORE_ID` | your store ID |
+| `SSLCOMMERZ_STORE_PASSWORD` | your store password |
+| `SSLCOMMERZ_IS_LIVE` | `false` for sandbox, `true` for production |
+| `API_URL` | `https://deshicraft-api.onrender.com` (public API URL for callbacks) |
+
+### API endpoints
+
+- `POST /api/payments/stripe/checkout` — `{ orderId }` → `{ url }`
+- `POST /api/payments/stripe/webhook` — Stripe webhook (raw body)
+- `POST /api/payments/sslcommerz/init` — `{ orderId }` → `{ url }`
+- `POST /api/payments/sslcommerz/ipn` — SSLCommerz IPN callback
+- `GET /api/payments/sslcommerz/success|fail|cancel` — redirect back to the client
+
+### Test
+
+1. Place an order with **Card (Stripe)** or **SSLCommerz** at checkout.
+2. Complete payment on the gateway (Stripe test card: `4242 4242 4242 4242`).
+3. Return to order detail — payment status should show **paid**.
+
+---
+
+## 3. Playwright E2E (next)
 
 - Smoke: login → cart → COD order → seller confirms.
 - Add job to `.github/workflows/ci.yml`.
