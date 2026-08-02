@@ -69,14 +69,14 @@ export function Navbar() {  const user = useAuthStore((s) => s.user);
           </NavLink>
         </nav>
 
-        <form onSubmit={onSearch} className="ml-auto hidden max-w-xs flex-1 md:block">
+        <form onSubmit={onSearch} className="ml-auto hidden min-w-0 max-w-md flex-1 md:block lg:max-w-lg">
           <div className="relative">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/40" />
             <input
               value={term}
               onChange={(e) => setTerm(e.target.value)}
               placeholder="Search handmade goods..."
-              className="input pl-9"
+              className="input w-full pl-9"
             />
           </div>
         </form>
